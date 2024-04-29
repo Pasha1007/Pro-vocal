@@ -1,0 +1,16 @@
+.mainCont{
+    background-color: #0C1010;
+    height: 100vh;
+}
+
+.courseContainer{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 4vh;
+}
+
+.moveIconCont{
+    display: flex;
+    width: 77%;
+}

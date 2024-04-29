@@ -1,0 +1,36 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1vh 12vw;
+    height: 11vh;
+}
+
+.iconsCont{
+    display: flex;
+    width: 13%;
+    justify-content: space-evenly;
+}
+
+.logoDark{
+    width: 244px;
+    height: 44px;
+    color:#FFFFFF;
+}
+
+.logoLight{
+    width: 244px;
+    height: 44px;
+    color:#0C1010;
+}
+
+.accIcon{
+    width: 43px;
+    height: 44px;
+}
+
+
+.helpIcon{
+    width: 43px;
+    height: 44px;
+}
