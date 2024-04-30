@@ -1,12 +1,3 @@
-.mainPageCont {
-  background: url("../assets/mainPageBcg.png");
-}
-.mainPageCompsHolder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .upperMainBlock {
   display: flex;
   justify-content: center;
@@ -56,7 +47,7 @@
   width: 100%;
   height: 100%;
   position: absolute;
-  box-shadow: inset 0px -193px 40px -111px #0c1010;
+  box-shadow: inset 0px -193px 40px -111px #0c1018;
 }
 
 .swipeBlockCont {

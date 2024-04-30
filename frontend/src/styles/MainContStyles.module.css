@@ -1,0 +1,8 @@
+.mainPageCont {
+  background: url("../assets/mainPageBcg.png");
+}
+.mainPageCompsHolder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

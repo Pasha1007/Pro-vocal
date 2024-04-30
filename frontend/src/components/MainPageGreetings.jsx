@@ -1,7 +1,6 @@
 import React from "react";
-import styles from "../styles/MainPageStyle.module.css";
+import styles from "../styles/MainPageStyles.module.css";
 import Header from "./Header";
-import ProCourse from "./ProCourseComponent";
 import mascot from "../assets/mascotImg.png";
 import MainButton from "../atoms/buttons/MainButton";
 import { Link } from "react-router-dom";
@@ -41,39 +40,36 @@ const ArrowIcon = () => (
 );
 const MainPageGreetings = () => {
   return (
-    <div className={styles.mainPageCont}>
+    <div>
       <Header theme="dark" />
-      <div className={styles.mainPageCompsHolder}>
-        <div className={styles.upperMainBlock}>
-          <div className={styles.greetTextCont}>
-            <div className={styles.textCont}>
-              <div className={styles.mainTextCont}>
-                <span className={styles.mainText}>
-                  КУРС ДЛЯ ВОКАЛІСТІВ ЗА МЕТОДИКОЮ ESTILL VOICE
-                </span>
-              </div>
-              <div className={styles.secondaryTextCont}>
-                <span className={styles.secondaryText}>
-                  Хочеш навчатись прямо зараз?
-                </span>
-                <Link to="/register">
-                  <MainButton />
-                </Link>
-              </div>
+      <div className={styles.upperMainBlock}>
+        <div className={styles.greetTextCont}>
+          <div className={styles.textCont}>
+            <div className={styles.mainTextCont}>
+              <span className={styles.mainText}>
+                КУРС ДЛЯ ВОКАЛІСТІВ ЗА МЕТОДИКОЮ ESTILL VOICE
+              </span>
             </div>
-            <div className={styles.greetImgCont}>
-              <img src={mascot} alt="" />
-              <div className={styles.shadow}></div>
+            <div className={styles.secondaryTextCont}>
+              <span className={styles.secondaryText}>
+                Хочеш навчатись прямо зараз?
+              </span>
+              <Link to="/register">
+                <MainButton />
+              </Link>
             </div>
           </div>
-        </div>
-        <div className={styles.swipeBlockCont}>
-          <span>гортайте, щоб дізнатись більше</span>
-          <div className={styles.btnConteiner}>
-            <ArrowIcon />
+          <div className={styles.greetImgCont}>
+            <img src={mascot} alt="" />
+            <div className={styles.shadow}></div>
           </div>
         </div>
-        <ProCourse id="pro-course" />
+      </div>
+      <div className={styles.swipeBlockCont}>
+        <span>гортайте, щоб дізнатись більше</span>
+        <div className={styles.btnConteiner}>
+          <ArrowIcon />
+        </div>
       </div>
     </div>
   );

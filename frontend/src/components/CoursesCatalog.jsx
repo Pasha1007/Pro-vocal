@@ -2,24 +2,28 @@ import React, { useState } from "react";
 import Header from "./Header";
 import styles from "../styles/CoursesCatalogStyles.module.css";
 import { Link } from "react-router-dom";
+import { ReactComponent as Waves } from "../assets/coursePageAssets/coursePageWaves.svg";
+import { ReactComponent as Logo } from "../assets/headerImages/PROVOCALIcon.svg";
+import CourseFromCatalog from "./CourseFromCatalog";
 
 const CoursesCatalog = () => {
   const [progress, setProgress] = useState(10);
 
   const courseTitles = [
-    "Сила (дихальна система)",
-    "Джерело (голосові зв’язки в гортані)",
-    "Фільтр (резонатор дихального тракту)",
+    { title: "Сила (дихальна система)", avaliable: true },
+    { title: "Джерело (голосові зв’язки в гортані)", avaliable: false },
+    { title: "Фільтр (резонатор дихального тракту)", avaliable: false },
   ];
   const opportunitiesTitles = [
-    "Гортань",
-    "М’яке піднебіння",
-    "Перснеподібний хрящ",
+    { title: "Гортань", avaliable: true },
+    { title: "М’яке піднебіння", avaliable: false },
+    { title: "Перснеподібний хрящ", avaliable: false },
   ];
 
   return (
     <div>
       <Header theme="light" />
+      <Waves className={styles.wave} />
       <div className={styles.mainContainer}>
         <div className={styles.catalogContainer}>
           <div className={styles.progressContainer}>
@@ -38,16 +42,12 @@ const CoursesCatalog = () => {
               <span>Введення в Estill Voice</span>
             </div>
             <div className={styles.listCourses}>
-              {courseTitles.map((title) => {
+              {courseTitles.map((item) => {
                 return (
-                  <div className={styles.courseContainer}>
-                    <Link to="/courses/course">
-                      <div className={styles.courseImgCont}></div>
-                      <div className={styles.courseTitle}>
-                        <span>{title}</span>
-                      </div>
-                    </Link>
-                  </div>
+                  <CourseFromCatalog
+                    title={item.title}
+                    blured={item.avaliable}
+                  />
                 );
               })}
             </div>
@@ -57,16 +57,12 @@ const CoursesCatalog = () => {
               <span>Можливості</span>
             </div>
             <div className={styles.listCourses}>
-              {opportunitiesTitles.map((title) => {
+              {opportunitiesTitles.map((item) => {
                 return (
-                  <div className={styles.courseContainer}>
-                    <a href="/courses/course">
-                      <div className={styles.courseImgCont}></div>
-                      <div className={styles.courseTitle}>
-                        <span>{title}</span>
-                      </div>
-                    </a>
-                  </div>
+                  <CourseFromCatalog
+                    title={item.title}
+                    blured={item.avaliable}
+                  />
                 );
               })}
             </div>
