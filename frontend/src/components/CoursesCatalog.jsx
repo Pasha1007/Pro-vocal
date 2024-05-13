@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import Header from "./Header";
 import styles from "../styles/CoursesCatalogStyles.module.css";
-import { Link } from "react-router-dom";
 import { ReactComponent as Waves } from "../assets/coursePageAssets/coursePageWaves.svg";
-import { ReactComponent as Logo } from "../assets/headerImages/PROVOCALIcon.svg";
-import CourseFromCatalog from "./CourseFromCatalog";
+import CourseBlock from "./CourseBlock";
 
 const CoursesCatalog = () => {
   const [progress, setProgress] = useState(10);
@@ -44,10 +42,7 @@ const CoursesCatalog = () => {
             <div className={styles.listCourses}>
               {courseTitles.map((item) => {
                 return (
-                  <CourseFromCatalog
-                    title={item.title}
-                    blured={item.avaliable}
-                  />
+                  <CourseBlock title={item.title} blured={item.avaliable} />
                 );
               })}
             </div>
@@ -59,10 +54,7 @@ const CoursesCatalog = () => {
             <div className={styles.listCourses}>
               {opportunitiesTitles.map((item) => {
                 return (
-                  <CourseFromCatalog
-                    title={item.title}
-                    blured={item.avaliable}
-                  />
+                  <CourseBlock title={item.title} blured={item.avaliable} />
                 );
               })}
             </div>

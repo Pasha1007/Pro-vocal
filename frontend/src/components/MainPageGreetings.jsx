@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../styles/MainPageStyles.module.css";
 import Header from "./Header";
-import mascot from "../assets/mascotImg.png";
+import mascot from "../assets/mainPageAssets/mascotImg.png";
 import MainButton from "../atoms/buttons/MainButton";
 import { Link } from "react-router-dom";
 const ArrowIcon = () => (
@@ -55,7 +55,7 @@ const MainPageGreetings = () => {
                 Хочеш навчатись прямо зараз?
               </span>
               <Link to="/register">
-                <MainButton />
+                <MainButton text="Розпочати" />
               </Link>
             </div>
           </div>

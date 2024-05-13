@@ -6,11 +6,43 @@
 .courseContainer {
   display: flex;
   width: 100%;
-  justify-content: center;
+  align-items: center;
   margin-top: 4vh;
+  height: 75%;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .moveIconCont {
   display: flex;
   width: 77%;
+}
+.buttonContainer {
+  display: flex;
+  width: 77%;
+  justify-content: center;
+}
+.wave {
+  position: absolute;
+  bottom: 0;
+}
+
+.courseMaterialsCont {
+  width: 77%;
+  height: 100%;
+  background-color: aqua;
+  display: flex;
+  flex-direction: row;
+}
+
+.courseTextMaterials {
+  width: 100%;
+    background-color: aqua;
+
+}
+
+.courseImgMaterials {
+  width: 100%;
+    background-color: blue;
+
 }

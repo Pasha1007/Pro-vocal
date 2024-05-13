@@ -4,19 +4,20 @@ import { ReactComponent as Logo } from "../assets/headerImages/PROVOCALIcon.svg"
 
 import { Link } from "react-router-dom";
 
-const CourseFromCatalog = ({ title, blured }) => {
+const CourseBlock = ({ title, blured }) => {
   return (
     <div className={styles.courseContainer}>
-      <Link to="/courses/course">
+      {blured ? (
+        <Link to="/courses/course">
+          <div className={styles.courseImgCont}>
+            <Logo style={{ color: "#FFFFFF", transform: "scale(1.03)" }} />
+          </div>
+        </Link>
+      ) : (
         <div className={styles.courseImgCont}>
-          {blured ? (
-            <Logo style={{ color: "#FFFFFF" }} />
-          ) : (
-            <Logo style={{ color: "#FFFFFF", filter: "blur(4px)" }} />
-          )}
+          <Logo style={{ color: "#FFFFFF", filter: "blur(4px)" }} />
         </div>
-      </Link>
-
+      )}
       <div className={styles.courseTitle}>
         <span>{title}</span>
       </div>
@@ -24,4 +25,4 @@ const CourseFromCatalog = ({ title, blured }) => {
   );
 };
 
-export default CourseFromCatalog;
+export default CourseBlock;
