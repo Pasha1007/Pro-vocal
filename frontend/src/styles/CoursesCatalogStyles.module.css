@@ -77,9 +77,7 @@
   align-items: center;
   transition: 0.2s;
 }
-.courseImgCont:hover {
-  transform: scale(1.03);
-}
+
 .courseTitle {
   display: flex;
   width: 100%;

@@ -1,5 +1,5 @@
 .mainPageCont {
-  background: url("../assets/mainPageBcg.png");
+  background: url("../assets/mainPageAssets/mainPageBcg.png");
 }
 .mainPageCompsHolder {
   display: flex;

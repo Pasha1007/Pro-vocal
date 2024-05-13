@@ -1,9 +1,12 @@
 import React from "react";
-import Header from "./Header";
-import styles from "../styles/CourseStyles.module.css";
+import { Link } from "react-router-dom";
 
 import { ReactComponent as MoveBack } from "../assets/secondaryIcons/moveBackIcon.svg";
-import { Link } from "react-router-dom";
+import { ReactComponent as Waves } from "../assets/coursePageAssets/courseBottomWave.svg";
+
+import styles from "../styles/CourseStyles.module.css";
+import MainButton from "../atoms/buttons/MainButton";
+import Header from "./Header";
 
 const Course = () => {
   return (
@@ -15,7 +18,16 @@ const Course = () => {
             <MoveBack />
           </Link>
         </div>
+        <div className={styles.courseMaterialsCont}>
+          <div className={styles.courseTextMaterials}></div>
+          <div className={styles.courseImgMaterials}></div>
+        </div>
+        <div className={styles.buttonContainer}>
+          <MainButton text="Готово!" />
+        </div>
       </div>
+
+      <Waves className={styles.wave} />
     </div>
   );
 };

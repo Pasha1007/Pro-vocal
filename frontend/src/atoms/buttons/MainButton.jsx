@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "../../styles/MainButtonStyles.module.css";
 
-const MainButton = () => {
-  return <button className={styles.startBtn}>Розпочати</button>;
+const MainButton = ({ text }) => {
+  return <button className={styles.startBtn}>{text}</button>;
 };
 
 export default MainButton;

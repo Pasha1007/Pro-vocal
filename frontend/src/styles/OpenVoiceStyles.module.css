@@ -24,10 +24,14 @@
 
 .openVoiceLeft {
   width: 50%;
-  background-color: blue;
+  display: flex;
+  align-items: flex-end;
 }
 
 .openVoiceRight {
   width: 50%;
-  background-color: yellow;
+}
+
+.whiteDudeImg {
+  width: 75%;
 }

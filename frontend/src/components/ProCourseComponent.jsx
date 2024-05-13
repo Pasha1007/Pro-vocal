@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../styles/ProCourseComponent.module.css";
-import threeDBlock from "../assets/3dBlockIcon.png";
+import threeDBlock from "../assets/mainPageAssets/3dBlockIcon.png";
 import MainButton from "../atoms/buttons/MainButton";
 
 const blocksContents = [
@@ -57,7 +57,7 @@ const ProCourse = () => {
             ефективним та цікавим.
           </span>
         </div>
-        <MainButton />
+        <MainButton text="Розпочати" />
       </div>
       <div className={styles.proCourseRight}>
         <div className={styles.blocksCont}>
