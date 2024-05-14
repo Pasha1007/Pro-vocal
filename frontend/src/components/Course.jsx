@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { ReactComponent as MoveBack } from "../assets/secondaryIcons/moveBackIcon.svg";
 import { ReactComponent as Waves } from "../assets/coursePageAssets/courseBottomWave.svg";
+import modelPreview from "../assets/3dPrewiew.png";
 
 import styles from "../styles/CourseStyles.module.css";
 import MainButton from "../atoms/buttons/MainButton";
@@ -19,11 +20,28 @@ const Course = () => {
           </Link>
         </div>
         <div className={styles.courseMaterialsCont}>
-          <div className={styles.courseTextMaterials}></div>
-          <div className={styles.courseImgMaterials}></div>
+          <div className={styles.courseTextMaterials}>
+            <span>
+              Діафрагма - це м'яз, що розділяє грудну і черевну порожнини. Вона
+              є ключовим елементом вокальної техніки, оскільки контролює обсяг
+              повітря, що виходить з легенів під час співу. <br></br>
+              <br></br>Правильне використання діафрагми може допомогти співакові
+              досягнути глибокого, потужного звучання та контролювати тонус
+              голосових зв'язок.
+            </span>
+            <span className={styles.fatText}>
+              <br></br>
+              <br></br>
+              Вдих: діафрагма скорочується та опускається<br></br>
+              <br></br>Видих: діафрагма розслабляється та піднімається
+            </span>
+          </div>
+          <div className={styles.courseImgMaterials}>
+            <img src={modelPreview} alt=""></img>
+          </div>
         </div>
         <div className={styles.buttonContainer}>
-          <MainButton text="Готово!" />
+          <MainButton text="Готово!" linkTo="/courses" />
         </div>
       </div>
 

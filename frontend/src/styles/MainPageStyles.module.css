@@ -1,3 +1,10 @@
+.topLeftWaves {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 45%;
+}
 .upperMainBlock {
   display: flex;
   justify-content: center;
