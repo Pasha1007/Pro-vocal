@@ -57,7 +57,7 @@ const ProCourse = () => {
             ефективним та цікавим.
           </span>
         </div>
-        <MainButton text="Розпочати" />
+        <MainButton text="Розпочати" linkTo="/login" />
       </div>
       <div className={styles.proCourseRight}>
         <div className={styles.blocksCont}>
