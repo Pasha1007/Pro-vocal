@@ -5,12 +5,16 @@ export default function HomePage() {
   const [formData, setFormData] = useState({ // Стейт для даних форми додавання тренування
     title: '',
     description: '',
+    category: 1,
+    content: '',
     file: null,
   });
   const [updateData, setUpdateData] = useState({ // Стейт для даних форми оновлення тренування
     id: '',
     title: '',
     description: '',
+    category: 1,
+    content: '',
     file: null,
   });
 
@@ -22,6 +26,7 @@ export default function HomePage() {
         throw new Error('Failed to fetch trainings');
       }
       const data = await response.json();
+      console.log(data);
       setTrainings(data.data);
     } catch (error) {
       console.error('Error loading trainings:', error.message);
@@ -43,6 +48,8 @@ export default function HomePage() {
 
     const data = {
       title: formData.title,
+      category: formData.category,
+      content: formData.content,
       description: formData.description,
       file: base64File,
     };
@@ -60,7 +67,7 @@ export default function HomePage() {
         throw new Error('Failed to add training');
       }
 
-      setFormData({ title: '', description: '', file: null });
+      setFormData({ title: '', category: null, content: '', description: '', file: null });
       loadTrainings(); // Після успішного додавання тренування - перезавантажуємо список тренувань
     } catch (error) {
       console.error('Error adding training:', error.message);
@@ -85,6 +92,8 @@ export default function HomePage() {
     setUpdateData({
       id: training._id,
       title: training.title,
+      category: training.category,
+      content: training.content,
       description: training.description,
       file: null
     });
@@ -102,6 +111,8 @@ export default function HomePage() {
     const data = {
       title: updateData.title,
       description: updateData.description,
+      category: updateData.category,
+      content: updateData.content,
       file: base64File,
     };
 
@@ -118,7 +129,7 @@ export default function HomePage() {
         throw new Error('Failed to update training');
       }
 
-      setUpdateData({ id: '', title: '', description: '', file: null });
+      setUpdateData({ id: '', category: null, content: '', title: '', description: '', file: null });
       loadTrainings(); // Після успішного оновлення тренування - перезавантажуємо список тренувань
     } catch (error) {
       console.error('Error updating training:', error.message);
@@ -142,6 +153,24 @@ export default function HomePage() {
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
         />
+        {/*<input*/}
+        {/*    type="text"*/}
+        {/*    placeholder="Title"*/}
+        {/*    value={formData.title}*/}
+        {/*    onChange={(e) => setFormData({ ...formData, title: e.target.value })}*/}
+        {/*/>*/}
+        <input
+            type="number"
+            placeholder="Category ( 1, 2, 3)"
+            value={formData.category}
+            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+        />
+        <input
+            type="text"
+            placeholder="Content"
+            value={formData.content}
+            onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+        />
         <textarea
           placeholder="Description"
           value={formData.description}
@@ -156,7 +185,11 @@ export default function HomePage() {
         {trainings.map((training) => (
           <li key={training._id}>
             <div>
-              <strong>{training.title}</strong>: {training.description}
+              <p>{training.title}</p>
+              <p>{training.content}</p>
+              <p>{training.description}</p>
+              <p>{training.category}</p>
+              <a href={"http://localhost:1234/" + training.file.filePath}>{training.file.filePath}</a>
               <button onClick={() => deleteTraining(training._id)}>Delete</button>
               <button onClick={() => handleUpdate(training)}>Update</button>
             </div>
@@ -176,6 +209,18 @@ export default function HomePage() {
             placeholder="New Description"
             value={updateData.description}
             onChange={(e) => setUpdateData({ ...updateData, description: e.target.value })}
+          />
+          <input
+              type="number"
+              placeholder="Category ( 1, 2, 3)"
+              value={formData.category}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+          />
+          <input
+              type="text"
+              placeholder="Content"
+              value={formData.content}
+              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
           />
           <input type="file" onChange={(e) => setUpdateData({ ...updateData, file: e.target.files[0] })} />
           <button type="submit">Update Training</button>

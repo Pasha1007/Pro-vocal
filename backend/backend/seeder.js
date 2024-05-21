@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import colors from 'colors';
 import users from './data/users.js';
-import products from './data/products.js';
 import User from './models/userModel.js';
 import Category from './models/categoryModel.js';
 import Training from './models/trainingModel.js';
@@ -14,8 +13,6 @@ connectDB();
 
 const importData = async () => {
   try {
-    // await Order.deleteMany();
-    // await Product.deleteMany();
     await User.deleteMany();
     await Training.deleteMany();
     await Category.deleteMany();
@@ -24,11 +21,6 @@ const importData = async () => {
 
     const adminUser = createdUsers[0]._id;
 
-    // const sampleProducts = products.map((product) => {
-    //   return { ...product, user: adminUser };
-    // });
-
-    // await Product.insertMany(sampleProducts);
     await Category.createCollection();
     await Training.createCollection();
 
@@ -43,8 +35,6 @@ const importData = async () => {
 
 const destroyData = async () => {
   try {
-    await Order.deleteMany();
-    await Product.deleteMany();
     await User.deleteMany();
 
     console.log('Data Destroyed!'.red.inverse);

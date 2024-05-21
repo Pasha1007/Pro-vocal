@@ -22,10 +22,12 @@ const getAllTrainings = asyncHandler(async (req, res) => {
 
 // Створення нового тренування
 const createTraining = asyncHandler(async (req, res) => {
-  const { title, description, file } = req.body;
+  const { title, description, content, category, file } = req.body;
   const newTraining = new Training({
     title,
     description,
+    category,
+    content
   });
 
   // Якщо прийшов файл, зберігаємо його на сервері та записуємо інформацію про нього в базу даних
@@ -55,7 +57,7 @@ const getTrainingById = asyncHandler(async (req, res) => {
 
 // Оновлення тренування за його ідентифікатором
 const updateTraining = asyncHandler(async (req, res) => {
-  const { title, description, file } = req.body;
+  const { title, description, content, category, file } = req.body;
   const training = await Training.findById(req.params.id);
 
   if (!training) {
@@ -65,6 +67,8 @@ const updateTraining = asyncHandler(async (req, res) => {
 
   training.title = title;
   training.description = description;
+  training.category = category;
+  training.content = content;
 
   // Якщо прийшов новий файл, зберігаємо його та оновлюємо інформацію в базі даних
   if (file) {

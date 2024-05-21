@@ -10,6 +10,14 @@ const trainingSchema = mongoose.Schema({
     type: String,
     required: [true, 'Please add a description'] // Вимагаємо наявність опису тренування
   },
+  category: {
+    type: Number,
+    required: [true, 'Please add a category']
+  },
+  content: {
+    type: String,
+    required: [true, 'Please add a content']
+  },
   file: {
     fileName: String,
     filePath: String,

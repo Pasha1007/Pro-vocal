@@ -19,15 +19,21 @@ import { admin, protect } from '../middleware/authMiddleware.js';
 router.route('/').get(getAllTrainings);
 
 // Додавання нового тренування
-router.route('/').post(protect, admin, createTraining);
+router.route('/').post(
+    // protect, admin,
+    createTraining);
 
 // Отримання конкретного тренування за його ідентифікатором
 router.route('/:id').get(getTrainingById);
 
 // Оновлення тренування за його ідентифікатором
-router.route('/:id').put(protect, admin, updateTraining);
+router.route('/:id').put(
+    // protect, admin,
+    updateTraining);
 
 // Видалення тренування за його ідентифікатором
-router.route('/:id').delete(protect, admin, deleteTraining);
+router.route('/:id').delete(
+    // protect, admin,
+    deleteTraining);
 
 export default router; // Експорт об'єкту Router для використання в інших частинах додатку
