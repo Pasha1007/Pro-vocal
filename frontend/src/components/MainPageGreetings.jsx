@@ -3,6 +3,7 @@ import styles from "../styles/MainPageStyles.module.css";
 import Header from "./Header";
 import mascot from "../assets/mainPageAssets/mascotImg.png";
 import MainButton from "../atoms/buttons/MainButton";
+import waves from "../assets/mainPageAssets/topLeftWaves.png";
 import { Link } from "react-router-dom";
 const ArrowIcon = () => (
   <svg
@@ -41,6 +42,7 @@ const ArrowIcon = () => (
 const MainPageGreetings = () => {
   return (
     <div>
+      <img src={waves} alt="" className={styles.topLeftWaves}></img>
       <Header theme="dark" />
       <div className={styles.upperMainBlock}>
         <div className={styles.greetTextCont}>
@@ -54,9 +56,7 @@ const MainPageGreetings = () => {
               <span className={styles.secondaryText}>
                 Хочеш навчатись прямо зараз?
               </span>
-              <Link to="/register">
-                <MainButton text="Розпочати" />
-              </Link>
+              <MainButton text="Розпочати" linkTo="/login" />
             </div>
           </div>
           <div className={styles.greetImgCont}>

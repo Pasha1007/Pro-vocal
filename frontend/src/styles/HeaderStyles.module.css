@@ -1,36 +1,68 @@
-.header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1vh 12vw;
-    height: 11vh;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1vh 12vw;
+  height: 11vh;
+  position: relative;
+}
+.logoDarkCont {
+  width: 42%;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: 700;
 }
 
-.iconsCont{
-    display: flex;
-    width: 13%;
-    justify-content: space-evenly;
+.logoLightCont {
+  width: 42%;
+  display: flex;
+  align-items: center;
+  color: #0c1010;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: 700;
 }
 
-.logoDark{
-    width: 244px;
-    height: 44px;
-    color:#FFFFFF;
+.iconsCont {
+  display: flex;
+  width: 55px;
+  height: 55px;
+  justify-content: center;
+
+  align-items: center;
 }
 
-.logoLight{
-    width: 244px;
-    height: 44px;
-    color:#0C1010;
+.iconsLightCont {
+  display: flex;
+  width: 55px;
+  height: 55px;
+  justify-content: center;
+  background-color: white;
+  border-radius: 50%;
+  align-items: center;
 }
 
-.accIcon{
-    width: 43px;
-    height: 44px;
+.logoDark {
+  width: 244px;
+  height: 44px;
+  color: #ffffff;
 }
 
+.logoLight {
+  width: 244px;
+  height: 44px;
+  color: #0c1010;
+}
 
-.helpIcon{
-    width: 43px;
-    height: 44px;
+.accIcon {
+  width: 43px;
+  height: 44px;
+}
+
+.helpIcon {
+  width: 43px;
+  height: 44px;
 }
