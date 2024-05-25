@@ -15,7 +15,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js'; // Mid
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const port = process.env.PORT || 5000; // Встановлення порту для сервера
+const port = process.env.PORT || 5070; // Встановлення порту для сервера
 
 connectDB(); // Підключення до бази даних
 
