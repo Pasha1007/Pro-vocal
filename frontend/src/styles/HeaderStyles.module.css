@@ -66,3 +66,11 @@
   width: 43px;
   height: 44px;
 }
+
+.loginText {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  margin-right: 19px;
+}

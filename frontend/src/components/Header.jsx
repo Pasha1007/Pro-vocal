@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../assets/headerImages/PROVOCALIcon.svg";
 import accountIconWht from "../assets/headerImages/accountIcon.svg";
 import accountIconBlk from "../assets/headerImages/accountIconBlack.svg";
-
+import MainButton from "../atoms/buttons/MainButton";
 import styles from "../styles/HeaderStyles.module.css";
 
 const Header = ({ theme }) => {
@@ -31,11 +31,22 @@ const Header = ({ theme }) => {
           <span>Курс</span>
         </Link>
       </div>
-      <div
-        className={theme === "light" ? styles.iconsLightCont : styles.iconsCont}
-      >
-        <img src={accountIconSrc} alt="" className={styles.accIcon} />
-      </div>
+      {theme === "light" ? (
+        <div
+          className={
+            theme === "light" ? styles.iconsLightCont : styles.iconsCont
+          }
+        >
+          <img src={accountIconSrc} alt="" className={styles.accIcon} />
+        </div>
+      ) : (
+        <div>
+          <Link to="/login" className={styles.loginText}>
+            <span>Увійти</span>
+          </Link>
+          <MainButton text="Реєстрація" linkTo="/register" type="small" />
+        </div>
+      )}
     </div>
   );
 };

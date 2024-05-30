@@ -3,12 +3,10 @@ import { Link } from "react-router-dom";
 
 import { ReactComponent as MoveBack } from "../assets/secondaryIcons/moveBackIcon.svg";
 import { ReactComponent as Waves } from "../assets/coursePageAssets/courseBottomWave.svg";
-import modelPreview from "../assets/3dPrewiew.png";
-
 import styles from "../styles/CourseStyles.module.css";
 import MainButton from "../atoms/buttons/MainButton";
 import Header from "./Header";
-
+import SkeletonModel from "../atoms/3dmodels/skeleton";
 const Course = () => {
   return (
     <div className={styles.mainCont}>
@@ -37,11 +35,11 @@ const Course = () => {
             </span>
           </div>
           <div className={styles.courseImgMaterials}>
-            <img src={modelPreview} alt=""></img>
+            <SkeletonModel />
           </div>
         </div>
         <div className={styles.buttonContainer}>
-          <MainButton text="Готово!" linkTo="/courses" />
+          <MainButton text="Готово!" linkTo="/courses" type="big" />
         </div>
       </div>
 

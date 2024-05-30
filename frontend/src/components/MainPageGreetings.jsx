@@ -56,7 +56,7 @@ const MainPageGreetings = () => {
               <span className={styles.secondaryText}>
                 Хочеш навчатись прямо зараз?
               </span>
-              <MainButton text="Розпочати" linkTo="/login" />
+              <MainButton text="Розпочати" linkTo="/login" type="big" />
             </div>
           </div>
           <div className={styles.greetImgCont}>
