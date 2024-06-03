@@ -4,14 +4,15 @@ import mongoose from 'mongoose'; // Імпорт бібліотеки mongoose �
 const trainingSchema = mongoose.Schema({
   title: {
     type: String,
-    required: [true, 'Please add a title'] // Вимагаємо наявність назви тренування
+    required: [true, 'Please add a title']
   },
   description: {
     type: String,
-    required: [true, 'Please add a description'] // Вимагаємо наявність опису тренування
+    required: [true, 'Please add a description']
   },
   category: {
-    type: Number,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
     required: [true, 'Please add a category']
   },
   content: {

@@ -2,6 +2,7 @@ import asyncHandler from '../middleware/asyncHandler.js'; // Middleware для �
 import Training from '../models/trainingModel.js'; // Модель тренування з бази даних
 import fs from 'fs'; // Модуль для роботи з файловою системою
 import path from 'path'; // Модуль для роботи з шляхами файлів
+import User from '../models/userModel.js'; // Модель користувача з бази даних
 
 // Функція для збереження файлу з Base64 в файлову систему
 const saveBase64File = (base64Data, filePath) => {
@@ -16,10 +17,30 @@ const saveBase64File = (base64Data, filePath) => {
 
 // Отримання всіх тренувань з бази даних
 const getAllTrainings = asyncHandler(async (req, res) => {
-  const trainings = await Training.find();
-  res.json({ success: true, data: trainings });
-});
+  const allTrainings = await Training.find().populate('category');
 
+  // Check if user is logged in
+  if (!req.user) {
+    // If no user, return all trainings
+    res.json({ success: true, data: allTrainings });
+    return;
+  }
+
+  const user = await User.findById(req.user._id);
+
+  let unlockedTrainings = [];
+
+  // Unlock the first training if none have been completed
+  if (user.completedTrainings.length === 0) {
+    unlockedTrainings = allTrainings.slice(0, 1);
+  } else {
+    // Unlock the next training
+    const nextTrainingIndex = user.completedTrainings.length;
+    unlockedTrainings = allTrainings.slice(0, nextTrainingIndex + 1);
+  }
+
+  res.json({ success: true, data: unlockedTrainings });
+});
 // Створення нового тренування
 const createTraining = asyncHandler(async (req, res) => {
   const { title, description, content, category, file } = req.body;
@@ -100,6 +121,18 @@ const deleteTraining = asyncHandler(async (req, res) => {
 
   res.json({ success: true, data: {} });
 });
+// Оновлення прогресу користувача при завершенні тренування
+const completeTraining = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id);
+
+    if (!user.completedTrainings.includes(req.params.id)) {
+        user.completedTrainings.push(req.params.id);
+        await user.save();
+    }
+
+    res.json({ success: true, data: user.completedTrainings });
+});
+
 
 // Експорт функцій контролерів для використання в маршрутах
 export {
@@ -108,4 +141,5 @@ export {
   getTrainingById,
   updateTraining,
   deleteTraining,
+    completeTraining
 };

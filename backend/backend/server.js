@@ -9,6 +9,7 @@ dotenv.config(); // Завантаження конфігурації з .env ф
 import connectDB from './config/db.js'; // Функція для підключення до бази даних
 import userRoutes from './routes/userRoutes.js'; // Маршрути для користувачів
 import trainingRoutes from './routes/trainingRoutes.js'; // Маршрути для тренувань
+import categoriesRoutes from './routes/categoriesRoutes.js'; // Маршрути для тренувань
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'; // Middleware для обробки помилок
 
 // Отримання шляху до поточного файлу та каталогу
@@ -29,6 +30,7 @@ app.use(cookieParser());
 
 // Встановлення маршрутів для користувачів та тренувань
 app.use('/api/users', userRoutes);
+app.use('/api/categories', categoriesRoutes);
 app.use('/api/trainings', trainingRoutes);
 
 // Обробка статичних файлів (наприклад, зображення)

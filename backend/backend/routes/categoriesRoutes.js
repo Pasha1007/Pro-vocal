@@ -3,13 +3,12 @@ const router = express.Router(); // Створення об'єкту Router
 
 // Імпорт функцій контролерів для керування тренуваннями
 import {
-    getAllTrainings,
-    createTraining,
-    getTrainingById,
-    updateTraining,
-    deleteTraining,
-    completeTraining
-} from '../controllers/trainingController.js';
+    getAllCategories,
+    createCategory,
+    getCategoryById,
+    updateCategory,
+    deleteCategory,
+} from '../controllers/categoriesController.js';
 
 // Імпорт middleware для автентифікації
 import { admin, protect } from '../middleware/authMiddleware.js';
@@ -17,27 +16,24 @@ import { admin, protect } from '../middleware/authMiddleware.js';
 // Встановлення маршрутів та пов'язаних з ними функцій контролерів
 
 // Отримання списку всіх тренувань
-router.route('/').get(getAllTrainings);
+router.route('/').get(getAllCategories);
 
 // Додавання нового тренування
 router.route('/').post(
     // protect, admin,
-    createTraining);
+    createCategory);
 
 // Отримання конкретного тренування за його ідентифікатором
-router.route('/:id').get(getTrainingById);
+router.route('/:id').get(getCategoryById);
 
 // Оновлення тренування за його ідентифікатором
 router.route('/:id').put(
     // protect, admin,
-    updateTraining);
+    updateCategory);
 
 // Видалення тренування за його ідентифікатором
 router.route('/:id').delete(
     // protect, admin,
-    deleteTraining);
-router.route('/:id/complete').put(
-    // protect,
-    completeTraining);
+    deleteCategory);
 
 export default router; // Експорт об'єкту Router для використання в інших частинах додатку
