@@ -5,6 +5,8 @@
   padding: 1vh 12vw;
   height: 11vh;
   position: relative;
+  width: -webkit-fill-available;
+  z-index: 1;
 }
 .logoDarkCont {
   width: 42%;

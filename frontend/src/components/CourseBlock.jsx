@@ -10,12 +10,21 @@ const CourseBlock = ({ title, blured }) => {
       {blured ? (
         <Link to="/courses/course">
           <div className={styles.courseImgCont}>
-            <Logo style={{ color: "#FFFFFF", transform: "scale(1.03)" }} />
+            <Logo style={{ color: "#0c1010", transform: "scale(1.03)" }} />
           </div>
         </Link>
       ) : (
         <div className={styles.courseImgCont}>
-          <Logo style={{ color: "#FFFFFF", filter: "blur(4px)" }} />
+          <div className={styles.lock}>
+            <img src="/lock.png" alt=""></img>
+          </div>
+          <div className={styles.neededModules}>
+            <span>Для доступу до цього модуля</span>
+            <ul>
+              <li>Пройдіть модуль “Сила(дихальна система)”</li>
+            </ul>
+          </div>
+          <Logo style={{ color: "#0c1010", filter: "blur(4px)" }} />
         </div>
       )}
       <div className={styles.courseTitle}>

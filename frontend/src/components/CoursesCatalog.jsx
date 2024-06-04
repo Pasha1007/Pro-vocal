@@ -19,45 +19,40 @@ const CoursesCatalog = () => {
   ];
 
   return (
-    <div>
-      <Header theme="light" />
+    <div className={styles.mainContainer}>
+      <Header theme="dark" />
       <Waves className={styles.wave} />
-      <div className={styles.mainContainer}>
-        <div className={styles.catalogContainer}>
-          <div className={styles.progressContainer}>
-            <div className={styles.progressTitle}>
-              <span className={styles.titleTxt}>Прогрес курсу</span>
-              <span className={styles.progressPercent}>{progress}%</span>
-            </div>
-            <progress
-              className={styles.progressBar}
-              value={progress}
-              max={100}
-            ></progress>
+
+      <div className={styles.catalogContainer}>
+        <div className={styles.progressContainer}>
+          <div className={styles.progressTitle}>
+            <span className={styles.titleTxt}>Прогрес курсу</span>
+            <span className={styles.progressPercent}>{progress}%</span>
           </div>
-          <div className={styles.introductionContainer}>
-            <div className={styles.blocksTitle}>
-              <span>Введення в Estill Voice</span>
-            </div>
-            <div className={styles.listCourses}>
-              {courseTitles.map((item) => {
-                return (
-                  <CourseBlock title={item.title} blured={item.avaliable} />
-                );
-              })}
-            </div>
+          <progress
+            className={styles.progressBar}
+            value={progress}
+            max={100}
+          ></progress>
+        </div>
+        <div className={styles.introductionContainer}>
+          <div className={styles.blocksTitle}>
+            <span>Введення в Estill Voice</span>
           </div>
-          <div className={styles.opportunitiesContainer}>
-            <div className={styles.blocksTitle}>
-              <span>Можливості</span>
-            </div>
-            <div className={styles.listCourses}>
-              {opportunitiesTitles.map((item) => {
-                return (
-                  <CourseBlock title={item.title} blured={item.avaliable} />
-                );
-              })}
-            </div>
+          <div className={styles.listCourses}>
+            {courseTitles.map((item) => {
+              return <CourseBlock title={item.title} blured={item.avaliable} />;
+            })}
+          </div>
+        </div>
+        <div className={styles.opportunitiesContainer}>
+          <div className={styles.blocksTitle}>
+            <span>Можливості</span>
+          </div>
+          <div className={styles.listCourses}>
+            {opportunitiesTitles.map((item) => {
+              return <CourseBlock title={item.title} blured={item.avaliable} />;
+            })}
           </div>
         </div>
       </div>
