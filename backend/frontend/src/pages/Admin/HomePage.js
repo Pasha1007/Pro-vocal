@@ -226,7 +226,7 @@ export default function HomePage() {
                   <p>{training.content}</p>
                   <p>{training.description}</p>
                   <p>{training.category.name}</p>
-                  <a href={"http://localhost:1234/" + training.file.filePath}>{training.file.filePath}</a>
+                  <a href={"http://localhost:1234/" + training?.file?.filePath ?? ''}>{training?.file?.filePath ?? ''}</a>
                   <button onClick={() => deleteTraining(training._id)}>Delete</button>
                   <button onClick={() => handleUpdate(training)}>Update</button>
                 </div>

@@ -123,7 +123,8 @@ const deleteTraining = asyncHandler(async (req, res) => {
 });
 // Оновлення прогресу користувача при завершенні тренування
 const completeTraining = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id);
+    // const user = await User.findById(req.user._id);
+  const { userId } = req.body;
 
     if (!user.completedTrainings.includes(req.params.id)) {
         user.completedTrainings.push(req.params.id);

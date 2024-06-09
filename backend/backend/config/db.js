@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect('mongodb://localhost:27017/provocal');
+    const conn = await mongoose.connect('mongodb+srv://root:root@cluster0.uvrf8jw.mongodb.net/provocal?retryWrites=true&w=majority&appName=Cluster0JWT_SECRET=dasdhajkh@JKDHajkdhka');
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error(`Error: ${error.message}`);
