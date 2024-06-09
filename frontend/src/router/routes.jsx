@@ -2,6 +2,7 @@ import LoginCard from "../components/LoginCard";
 import RegisterCard from "../components/RegisterCard";
 import CoursesCatalog from "../components/CoursesCatalog";
 import Course from "../components/Course";
+import CourseTechinque from "../components/CourseTechnique";
 import MainPage from "../pages/MainPage";
 const routes = [
   {
@@ -21,8 +22,12 @@ const routes = [
     element: <CoursesCatalog />,
   },
   {
-    path: "/courses/course",
+    path: "/courses/course/:title",
     element: <Course />,
+  },
+  {
+    path: "/courses/courseBelt/:title",
+    element: <CourseTechinque />,
   },
 ];
 

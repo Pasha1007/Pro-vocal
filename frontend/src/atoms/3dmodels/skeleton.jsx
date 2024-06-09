@@ -31,7 +31,10 @@ function SkeletonModel() {
       1000
     );
     camera.position.z = 6;
-    scene.add(camera);
+    // const light = new THREE.DirectionalLight(0xffffff, 10);
+    // light.position.set(0, 0, 6);
+    // camera.add(light);
+    // scene.add(camera);
 
     const controls = new OrbitControls(camera, canvas);
     controls.enableRotate = true;
@@ -42,11 +45,14 @@ function SkeletonModel() {
     renderer.render(scene, camera);
 
     const loader2 = new RGBELoader();
-    loader2.load("/3DModels/flower_road_1k.hdr", function (texture) {
-      texture.mapping = THREE.EquirectangularReflectionMapping;
-      scene.environment = texture;
-      scene.environment.intensity = 0.1;
-    });
+    loader2.load(
+      "/3DModels/christmas_photo_studio_04_1k.hdr",
+      function (texture) {
+        texture.mapping = THREE.EquirectangularReflectionMapping;
+        scene.environment = texture;
+        scene.environment.intensity = 1;
+      }
+    );
 
     loader.load(
       "/3DModels/skeleton.gltf",
