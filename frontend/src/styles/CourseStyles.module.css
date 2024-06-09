@@ -57,3 +57,27 @@
 .fatText {
   font-weight: 700;
 }
+
+.twoColumnList {
+  columns: 2;
+  padding: 0;
+  list-style-type: none;
+}
+
+.additionalCont {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.fatText2 {
+  font-weight: 700;
+  margin-top: 10px;
+}
+.courseType1TextMaterials {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-size: 17px;
+  height: 82%;
+}

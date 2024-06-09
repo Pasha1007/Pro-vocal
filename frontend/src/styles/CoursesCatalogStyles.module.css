@@ -48,11 +48,15 @@
   margin-top: 7vh;
 }
 .blocksTitle {
-  width: max-content;
+  width: 100%;
   font-size: 2vw;
   font-weight: 800;
   margin-bottom: 4vh;
   color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 .blocksTitle span {
   font-size: 2vw;
@@ -120,4 +124,22 @@
   top: 0;
   right: 0;
   z-index: 0;
+}
+
+.addCourseBtnCont {
+  margin-left: 20px;
+}
+.butOnBut {
+  background-color: transparent;
+  border: none;
+}
+
+.addCourseModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 25%;
+  height: 25%;
+  background-color: blue;
+  z-index: 99;
 }

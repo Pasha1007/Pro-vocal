@@ -1,13 +1,16 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { React } from "react";
+import { Link, useParams } from "react-router-dom";
 
 import { ReactComponent as MoveBack } from "../assets/secondaryIcons/moveBackIcon.svg";
 import { ReactComponent as Waves } from "../assets/coursePageAssets/courseBottomWave.svg";
 import styles from "../styles/CourseStyles.module.css";
 import MainButton from "../atoms/buttons/MainButton";
 import Header from "./Header";
-import SkeletonModel from "../atoms/3dmodels/skeleton";
+// import SkeletonModel from "../atoms/3dmodels/skeleton";
 const Course = () => {
+  const { title } = useParams();
+  const decodedTitle = decodeURIComponent(title);
+  
   return (
     <div className={styles.mainCont}>
       <Header theme="dark" />
@@ -18,7 +21,8 @@ const Course = () => {
           </Link>
         </div>
         <div className={styles.courseMaterialsCont}>
-          <div className={styles.courseTextMaterials}>
+          <div className={styles.courseType1TextMaterials}>
+            <h2>{decodedTitle}</h2>
             <span>
               Діафрагма - це м'яз, що розділяє грудну і черевну порожнини. Вона
               є ключовим елементом вокальної техніки, оскільки контролює обсяг
@@ -35,7 +39,7 @@ const Course = () => {
             </span>
           </div>
           <div className={styles.courseImgMaterials}>
-            <SkeletonModel />
+            {/* <SkeletonModel /> */}
           </div>
         </div>
         <div className={styles.buttonContainer}>
