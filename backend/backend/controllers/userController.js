@@ -5,33 +5,28 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 
-// const verifyToken = asyncHandler(async (req, res, next) => {
-//   console.log('work')
-//   let token;
-//
-//   // Получаем токен из заголовка Authorization
-//   const authHeader = req.headers.authorization;
-//   if (authHeader && authHeader.startsWith('Bearer ')) {
-//     // Если заголовок существует и начинается с 'Bearer ', получаем токен
-//     token = authHeader.split(' ')[1];
-//   }
-//
-//   if (!token) {
-//     return res.status(401).json({ message: 'No token, authorization denied' });
-//   }
-//
-//   try {
-//     // Проверяем токен
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     req.user = decoded;
-//     next();
-//   } catch (err) {
-//     res.status(401).json({ message: 'Token is not valid' });
-//   }
-// });
-//
-//
-//
+const verifyToken = asyncHandler(async (req, res, next) => {
+  let token;
+
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    token = authHeader.split(' ')[1];
+  }
+
+  if (!token) {
+    return res.status(401).json({ message: 'No token, authorization denied' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: 'Token is not valid' });
+  }
+});
+
+
 //
 //
 // const test = asyncHandler(async (req, res) => {
@@ -245,7 +240,18 @@ const updateUser = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 });
+// @desc    Get user by token
+// @route   GET /api/users/token
+// @access  Private
+const getUserByToken = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user.userId).select('-password');
 
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404).json({ message: 'User not found' });
+  }
+});
 export {
   authUser,
   registerUser,
@@ -257,5 +263,6 @@ export {
   getUserById,
   updateUser,
   // test,
-  // verifyToken
+  verifyToken,
+    getUserByToken
 };
