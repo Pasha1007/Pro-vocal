@@ -6,6 +6,8 @@ import accountIconBlk from "../assets/headerImages/accountIconBlack.svg";
 import MainButton from "../atoms/buttons/MainButton";
 import styles from "../styles/HeaderStyles.module.css";
 import { AuthContext } from "../contexts/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Header = ({ theme }) => {
   const accountIconSrc = theme === "dark" ? accountIconWht : accountIconBlk;
@@ -13,7 +15,7 @@ const Header = ({ theme }) => {
   const navigate = useNavigate();
   const logOut = () => {
     logout();
-    navigate("/");
+    navigate("/", { state: { loggedOut: true } });
   };
   return (
     <div className={styles.header}>

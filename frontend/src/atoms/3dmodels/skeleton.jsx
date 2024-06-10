@@ -7,7 +7,7 @@ import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
 
 import styles from "../../styles/LoaderStyles.module.css";
 
-const SkeletonModel = () => {
+const SkeletonModel = ({ modelUrl, position }) => {
   const canvasRef = useRef(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +31,7 @@ const SkeletonModel = () => {
       0.1,
       1000
     );
-    camera.position.z = 6;
+    camera.position.z = 3;
     // const light = new THREE.DirectionalLight(0xffffff, 10);
     // light.position.set(0, 0, 6);
     // camera.add(light);
@@ -54,15 +54,22 @@ const SkeletonModel = () => {
         scene.environment.intensity = 1;
       }
     );
+    const startLoadTime = performance.now();
 
     loader.load(
-      "/3DModels/66674249eb4a1fb33e44a332.octet-stream",
+      modelUrl,
       (gltf) => {
         const skeleton = gltf.scene;
-        skeleton.position.set(0, 0.5, 0);
+        skeleton.position.set(...position);
         skeleton.scale.set(2, 2, 2);
+        skeleton.rotateY(1.6);
         scene.add(skeleton);
+
         setIsLoading(false);
+        const endLoadTime = performance.now();
+        console.log(
+          `Model load time: ${(endLoadTime - startLoadTime).toFixed(2)} ms`
+        );
       },
       undefined,
       function (error) {
@@ -85,7 +92,7 @@ const SkeletonModel = () => {
     };
 
     window.addEventListener("resize", handleResize);
-  }, [loader, scene]);
+  }, [loader, scene, modelUrl, position]);
 
   return (
     <div

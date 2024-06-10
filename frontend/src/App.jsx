@@ -3,7 +3,6 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import routes from "./router/routes";
 import { AuthProvider } from "./contexts/AuthContext";
-
 function App() {
   const router = createBrowserRouter(routes);
 

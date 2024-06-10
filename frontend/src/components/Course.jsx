@@ -1,5 +1,5 @@
-import { React, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { React, useEffect, useState, useContext } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 import { ReactComponent as MoveBack } from "../assets/secondaryIcons/moveBackIcon.svg";
 import { ReactComponent as Waves } from "../assets/coursePageAssets/courseBottomWave.svg";
@@ -8,9 +8,19 @@ import MainButton from "../atoms/buttons/MainButton";
 import Header from "./Header";
 import stylesBtn from "./../styles/MainButtonStyles.module.css";
 import SkeletonModel from "../atoms/3dmodels/skeleton";
+import { AuthContext } from "../contexts/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Course = () => {
   const { id } = useParams();
   const [course, setCourse] = useState([]);
+  const { isUserAdmin } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const editSucces = () => toast.success("Зміни збережено");
+  const smtWentWrong = () => toast.error("Щось пішло не так");
+
   const [updateData, setUpdateData] = useState({
     id: "",
     title: "",
@@ -89,7 +99,7 @@ const Course = () => {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to update training");
+        throw smtWentWrong();
       }
 
       setUpdateData({
@@ -100,16 +110,39 @@ const Course = () => {
         description: "",
         file: null,
       });
+      editSucces();
+      window.location.reload();
       loadTrainings();
     } catch (error) {
-      console.error("Error updating training:", error.message);
+      smtWentWrong();
+    }
+  };
+  const deleteTraining = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:1234/api/trainings/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) {
+        throw smtWentWrong();
+      }
+      navigate("/courses", { state: { courseDeleted: true } });
+      loadTrainings();
+    } catch (error) {
+      smtWentWrong();
     }
   };
   const closeModal = () => {
     setUpdateData(false);
   };
+  const completeCourse = () => {
+    navigate("/courses", { state: { courseCompleted: true } });
+  };
   return (
     <div className={styles.mainCont}>
+      <ToastContainer />
       <Header theme="dark" />
       {updateData.id && (
         <div className={styles.updateFormCont}>
@@ -166,16 +199,30 @@ const Course = () => {
           <Link to="/courses">
             <MoveBack />
           </Link>
-          <button
-            style={{
-              marginLeft: "20px",
-              backgroundColor: "transparent",
-              border: "none",
-            }}
-            onClick={() => handleUpdate(course)}
-          >
-            <MainButton text="Редагувати" />
-          </button>
+          {isUserAdmin && (
+            <div>
+              <button
+                style={{
+                  marginLeft: "20px",
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+                onClick={() => handleUpdate(course)}
+              >
+                <MainButton text="Редагувати" />
+              </button>
+              <button
+                style={{
+                  marginLeft: "20px",
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+                onClick={() => deleteTraining(course._id)}
+              >
+                <MainButton text="Видалити" />
+              </button>
+            </div>
+          )}
         </div>
         <div className={styles.courseMaterialsCont}>
           <div className={styles.courseType1TextMaterials}>
@@ -190,11 +237,23 @@ const Course = () => {
             ></span>
           </div>
           <div className={styles.courseImgMaterials}>
-            <SkeletonModel />
+            <SkeletonModel
+              modelUrl="/3DModels/66674249eb4a1fb33e44a332.octet-stream"
+              position={[0, -0.5, 0]}
+            />
           </div>
         </div>
         <div className={styles.buttonContainer}>
-          <MainButton text="Готово!" linkTo="/courses" type="big" />
+          <button
+            style={{
+              backgroundColor: "transparent",
+              border: "none",
+              zIndex: "99",
+            }}
+            onClick={completeCourse}
+          >
+            <MainButton text="Готово!" linkTo="/courses" type="big" />
+          </button>
         </div>
       </div>
 

@@ -1,10 +1,18 @@
 import React, { useState, useContext } from "react";
 import styles from "../styles/RegisterCardStyles.module.css";
 import leftSideLogo from "../assets/authImages/logoLeftSide.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const RegisterCard = () => {
   const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const errFields = () => toast.warning("Заповніть всі поля!");
+  const errPass = () => toast.warning("Паролі не співпадають!");
+  const smtWentWrong = () => toast.error("Щось пішло не так");
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -24,12 +32,12 @@ const RegisterCard = () => {
     const { username, password, repassword } = formData;
 
     if (!username || !password || !repassword) {
-      alert("err");
+      errFields();
       return;
     }
 
     if (password !== repassword) {
-      alert("err");
+      errPass();
       return;
     }
 
@@ -48,20 +56,21 @@ const RegisterCard = () => {
       .then((data) => {
         if (data.token) {
           localStorage.setItem("token", data.token);
-          window.location.href = "/";
+          navigate("/", { state: { loggedIn: true } });
           login(data.token);
         } else {
-          alert("err");
+          smtWentWrong();
         }
       })
       .catch((error) => {
-        alert("err");
+        smtWentWrong();
         console.error("Помилка:", error);
       });
   };
 
   return (
     <div className={styles.loginCardCont}>
+      <ToastContainer />
       <div className={styles.loginCard}>
         <img src={leftSideLogo} alt="Left Side Logo" />
         <div className={styles.loginForm}>

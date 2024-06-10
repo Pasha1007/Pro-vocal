@@ -3,10 +3,13 @@ import styles from "../styles/LoginCardStyles.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import leftSideLogo from "../assets/authImages/logoLeftSide.png";
 import { AuthContext } from "../contexts/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginCard = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const errFields = () => toast.warning("Спробуйте ще раз!");
 
   const Login = async (event) => {
     event.preventDefault();
@@ -27,18 +30,19 @@ const LoginCard = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Login failed");
+        throw errFields();
       }
 
       const data = await response.json();
       const token = data.token;
 
       login(token);
-      navigate("/");
+      navigate("/", { state: { loggedIn: true } });
     } catch (error) {}
   };
   return (
     <div className={styles.loginCardCont}>
+      <ToastContainer />
       <div className={styles.loginCard}>
         <img src={leftSideLogo} alt="" />
         <div className={styles.loginForm}>

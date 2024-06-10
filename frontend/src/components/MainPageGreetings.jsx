@@ -1,10 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import styles from "../styles/MainPageStyles.module.css";
 import Header from "./Header";
 import mascot from "../assets/mainPageAssets/mascotImg.png";
 import MainButton from "../atoms/buttons/MainButton";
 import waves from "../assets/mainPageAssets/topLeftWaves.png";
 import { AuthContext } from "../contexts/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ArrowIcon = () => (
   <svg
@@ -42,9 +45,19 @@ const ArrowIcon = () => (
 );
 const MainPageGreetings = () => {
   const { isAuthenticated } = useContext(AuthContext);
+  const location = useLocation();
 
+  useEffect(() => {
+    if (location.state && location.state.loggedOut) {
+      toast.success("Ви вийшли з акаунту!");
+    }
+    if (location.state && location.state.loggedIn) {
+      toast.success("Ласкаво просимо!");
+    }
+  }, [location.state]);
   return (
     <div>
+      <ToastContainer />
       <img src={waves} alt="" className={styles.topLeftWaves}></img>
       <Header theme="dark" />
       <div className={styles.upperMainBlock}>

@@ -1,15 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useLocation } from "react-router-dom";
 import Header from "./Header";
 import styles from "../styles/CoursesCatalogStyles.module.css";
 import { ReactComponent as Waves } from "../assets/coursePageAssets/coursePageWaves.svg";
 import CourseBlock from "./CourseBlock";
 import MainButton from "../atoms/buttons/MainButton";
-const CoursesCatalog = () => {
+import { AuthContext } from "../contexts/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+function CoursesCatalog() {
+  const location = useLocation();
+
+  const courseCreated = () => toast.success("Курс створено!");
+  const errorCourse = () => toast.error("Заповніть всі поля!");
+  const courseCompleted = () => toast.success("Вітаємо з проходженням курсу!");
+
+  const { isUserAdmin } = useContext(AuthContext);
+
   const [progress, setProgress] = useState(10);
-  const [isUserAdmin, setIsAdmin] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [trainings, setTrainings] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [completed, setCompleted] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -17,14 +30,18 @@ const CoursesCatalog = () => {
     content: "",
     file: null,
   });
-  const [updateData, setUpdateData] = useState({
-    id: "",
-    title: "",
-    description: "",
-    category: "",
-    content: "",
-    file: null,
-  });
+
+  useEffect(() => {
+    loadTrainings();
+    loadCategories();
+    if (location.state && location.state.courseDeleted) {
+      toast.success("Курс видалено!");
+    }
+    if (location.state && location.state.courseCompleted) {
+      courseCompleted();
+      setCompleted(true);
+    }
+  }, [location.state]);
 
   const loadTrainings = async () => {
     try {
@@ -51,31 +68,6 @@ const CoursesCatalog = () => {
       console.error("Error loading categories:", error.message);
     }
   };
-  const fetchUserRole = async () => {
-    try {
-      const response = await fetch("http://localhost:1234/api/users/token", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch user role");
-      }
-
-      const userData = await response.json();
-      setIsAdmin(userData.isAdmin);
-    } catch (error) {
-      console.error("Error fetching user role:", error.message);
-    }
-  };
-
-  useEffect(() => {
-    loadTrainings();
-    loadCategories();
-    fetchUserRole();
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -113,26 +105,12 @@ const CoursesCatalog = () => {
         description: "",
         file: null,
       });
+      setShowModal(false);
+      courseCreated();
       loadTrainings();
     } catch (error) {
       console.error("Error adding training:", error.message);
-    }
-  };
-
-  const deleteTraining = async (id) => {
-    try {
-      const response = await fetch(
-        `http://localhost:1234/api/trainings/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to delete training");
-      }
-      loadTrainings();
-    } catch (error) {
-      console.error("Error deleting training:", error.message);
+      errorCourse();
     }
   };
 
@@ -145,33 +123,26 @@ const CoursesCatalog = () => {
     });
 
   useEffect(() => {
-    if (showModal) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
+    document.body.style.overflow = showModal ? "hidden" : "auto";
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [showModal]);
+
   const toggleModal = () => {
     setShowModal(!showModal);
   };
 
-  const breathingTechniques = [
-    { title: "Фальцет", avaliable: true, type: 2 },
-    { title: "Белт", avaliable: false, type: 2 },
-    { title: "Мікст", avaliable: false, type: 2 },
-  ];
   const typeOneCourse = trainings.filter(
     (course) => course.category.name === "1"
   );
   const typeTwoCourse = trainings.filter(
     (course) => course.category.name === "2"
   );
+
   return (
     <div className={styles.mainContainer}>
+      <ToastContainer />
       {showModal && (
         <div className={styles.darkBG}>
           <div className={styles.centered}>
@@ -181,14 +152,6 @@ const CoursesCatalog = () => {
               </div>
 
               <div className={styles.modalContent}>
-                {/* <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    addCategory(prompt("Enter category name:"));
-                  }}
-                >
-                  <button type="submit">Add Category</button>
-                </form> */}
                 <form onSubmit={handleSubmit}>
                   <div className={styles.usernameInputGroup}>
                     <input
@@ -198,14 +161,14 @@ const CoursesCatalog = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, title: e.target.value })
                       }
-                    />{" "}
+                    />
                     <select
                       value={formData.category}
                       onChange={(e) =>
                         setFormData({ ...formData, category: e.target.value })
                       }
                     >
-                      <option value="">Select category</option>
+                      <option value="">Виберіть категорію курсу</option>
                       {categories.map((category) => (
                         <option key={category._id} value={category._id}>
                           {category.name}
@@ -215,13 +178,6 @@ const CoursesCatalog = () => {
                     <input
                       type="text"
                       placeholder="Контент"
-                      value={formData.content}
-                      onChange={(e) =>
-                        setFormData({ ...formData, content: e.target.value })
-                      }
-                    />
-                    <textarea
-                      placeholder="Description"
                       value={formData.description}
                       onChange={(e) =>
                         setFormData({
@@ -230,23 +186,30 @@ const CoursesCatalog = () => {
                         })
                       }
                     />
-                    <input
+                    <textarea
+                      placeholder="Правила"
+                      value={formData.content}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          content: e.target.value,
+                        })
+                      }
+                    />
+                    {/* <input
                       type="file"
                       onChange={(e) =>
                         setFormData({ ...formData, file: e.target.files[0] })
                       }
-                    />
+                    /> */}
                     <div className={styles.modalBtnCont}>
-                      <button
-                        className={styles.deleteBtn}
-                        onClick={handleSubmit}
-                        type="submit"
-                      >
-                        Add Training
+                      <button className={styles.deleteBtn} type="submit">
+                        Створити курс
                       </button>
                       <button
                         className={styles.cancelBtn}
                         onClick={toggleModal}
+                        type="button"
                       >
                         Скасувати
                       </button>
@@ -285,18 +248,16 @@ const CoursesCatalog = () => {
             )}
           </div>
           <div className={styles.listCourses}>
-            {typeOneCourse.map((course) => {
-              return (
-                <div key={course._id}>
-                  <CourseBlock
-                    id={course._id}
-                    title={course.title}
-                    blured={true}
-                    type={course.category.name}
-                  />
-                </div>
-              );
-            })}
+            {typeOneCourse.map((course) => (
+              <div key={course._id}>
+                <CourseBlock
+                  id={course._id}
+                  title={course.title}
+                  blured={true}
+                  type={course.category.name}
+                />
+              </div>
+            ))}
           </div>
         </div>
         <div className={styles.opportunitiesContainer}>
@@ -304,39 +265,21 @@ const CoursesCatalog = () => {
             <span>Можливості</span>
           </div>
           <div className={styles.listCourses}>
-            {typeTwoCourse.map((course) => {
-              return (
-                <div key={course._id}>
-                  <CourseBlock
-                    id={course._id}
-                    title={course.title}
-                    blured={true}
-                    type={course.category.name}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        <div className={styles.opportunitiesContainer}>
-          <div className={styles.blocksTitle}>
-            <span>Техніки вокалу</span>
-          </div>
-          <div className={styles.listCourses}>
-            {breathingTechniques.map((item) => {
-              return (
+            {typeTwoCourse.map((course) => (
+              <div key={course._id}>
                 <CourseBlock
-                  title={item.title}
-                  blured={item.avaliable}
-                  type={item.type}
+                  id={course._id}
+                  title={course.title}
+                  blured={true}
+                  type={course.category.name}
                 />
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default CoursesCatalog;
