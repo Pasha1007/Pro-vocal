@@ -190,7 +190,7 @@ const Course = () => {
             ></span>
           </div>
           <div className={styles.courseImgMaterials}>
-            <SkeletonModel modelUrl={course?.file?.filePath ?? ""} />
+            <SkeletonModel />
           </div>
         </div>
         <div className={styles.buttonContainer}>

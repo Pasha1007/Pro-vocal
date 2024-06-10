@@ -3,6 +3,8 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isUserAdmin, setUserAdmin] = useState(false);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {

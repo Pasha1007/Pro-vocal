@@ -51,10 +51,30 @@ const CoursesCatalog = () => {
       console.error("Error loading categories:", error.message);
     }
   };
+  const fetchUserRole = async () => {
+    try {
+      const response = await fetch("http://localhost:1234/api/users/token", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch user role");
+      }
+
+      const userData = await response.json();
+      setIsAdmin(userData.isAdmin);
+    } catch (error) {
+      console.error("Error fetching user role:", error.message);
+    }
+  };
 
   useEffect(() => {
     loadTrainings();
     loadCategories();
+    fetchUserRole();
   }, []);
 
   const handleSubmit = async (e) => {
