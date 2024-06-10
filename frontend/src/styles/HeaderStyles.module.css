@@ -62,6 +62,7 @@
 .accIcon {
   width: 43px;
   height: 44px;
+  margin-right: 20px;
 }
 
 .helpIcon {
@@ -75,4 +76,18 @@
   font-size: 20px;
   font-weight: 600;
   margin-right: 19px;
+}
+
+.logoutBtn {
+  background-color: transparent;
+  border: none;
+  margin-left: 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10px;
+}
+.logoutBtn img {
+  width: 35px;
 }

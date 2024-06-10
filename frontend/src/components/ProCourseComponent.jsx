@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "../styles/ProCourseComponent.module.css";
 import threeDBlock from "../assets/mainPageAssets/3dBlockIcon.png";
 import MainButton from "../atoms/buttons/MainButton";
+import { AuthContext } from "../contexts/AuthContext";
 
 const blocksContents = [
   {
@@ -41,6 +42,7 @@ const OneOfFourBlocks = ({ icon, title, content }) => {
 };
 
 const ProCourse = () => {
+  const { isAuthenticated } = useContext(AuthContext);
   return (
     <div className={styles.proCourseContainer}>
       <div className={styles.proCourseLeft}>
@@ -57,7 +59,11 @@ const ProCourse = () => {
             ефективним та цікавим.
           </span>
         </div>
-        <MainButton text="Розпочати" linkTo="/login" type="big" />
+        {isAuthenticated ? (
+          <MainButton text="Розпочати" linkTo="/courses" type="big" />
+        ) : (
+          <MainButton text="Розпочати" linkTo="/login" type="big" />
+        )}
       </div>
       <div className={styles.proCourseRight}>
         <div className={styles.blocksCont}>

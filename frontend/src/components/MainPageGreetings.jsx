@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "../styles/MainPageStyles.module.css";
 import Header from "./Header";
 import mascot from "../assets/mainPageAssets/mascotImg.png";
 import MainButton from "../atoms/buttons/MainButton";
 import waves from "../assets/mainPageAssets/topLeftWaves.png";
-import { Link } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
+
 const ArrowIcon = () => (
   <svg
     className={styles.arrowIcon}
@@ -40,6 +41,8 @@ const ArrowIcon = () => (
   </svg>
 );
 const MainPageGreetings = () => {
+  const { isAuthenticated } = useContext(AuthContext);
+
   return (
     <div>
       <img src={waves} alt="" className={styles.topLeftWaves}></img>
@@ -56,7 +59,11 @@ const MainPageGreetings = () => {
               <span className={styles.secondaryText}>
                 Хочеш навчатись прямо зараз?
               </span>
-              <MainButton text="Розпочати" linkTo="/login" type="big" />
+              {isAuthenticated ? (
+                <MainButton text="Розпочати" linkTo="/courses" type="big" />
+              ) : (
+                <MainButton text="Розпочати" linkTo="/login" type="big" />
+              )}
             </div>
           </div>
           <div className={styles.greetImgCont}>

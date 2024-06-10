@@ -1,15 +1,42 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "../styles/LoginCardStyles.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import leftSideLogo from "../assets/authImages/logoLeftSide.png";
+import { AuthContext } from "../contexts/AuthContext";
 
 const LoginCard = () => {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
-  const Login = () => {
-    navigate("/courses");
+  const Login = async (event) => {
+    event.preventDefault();
+
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    try {
+      const response = await fetch("http://localhost:1234/api/users/auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: username,
+          password: password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
+      const data = await response.json();
+      const token = data.token;
+
+      login(token);
+      navigate("/");
+    } catch (error) {}
   };
-
   return (
     <div className={styles.loginCardCont}>
       <div className={styles.loginCard}>
@@ -17,11 +44,11 @@ const LoginCard = () => {
         <div className={styles.loginForm}>
           <h2>Увійти</h2>
           <div className={styles.inputsCont}>
-            <div className={styles.usernameInputGroup}>
+            <div className={styles.userNameInputGroup}>
               <label htmlFor="username">Логін:</label>
               <input type="text" id="username" name="username" />
             </div>
-            <div className={styles.usernameInputGroup}>
+            <div className={styles.userNameInputGroup}>
               <label htmlFor="password">Пароль:</label>
               <input type="password" id="password" name="password" />
             </div>
