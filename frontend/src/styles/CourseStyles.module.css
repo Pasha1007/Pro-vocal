@@ -81,3 +81,56 @@
   font-size: 17px;
   height: 82%;
 }
+
+.updateFormCont {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.731);
+  width: 100vw;
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.updateFormCont form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 80%;
+  width: 40%;
+  font-size: 20px;
+  font-weight: 600;
+  background-color: #0c1010;
+  padding: 15px;
+}
+.updateFormCont form input,
+select,
+textarea {
+  height: 50px;
+  box-shadow: 0px 4px 20px -7px white;
+  border: none;
+}
+
+.updateFormCont form textarea {
+  height: 90px;
+}
+.updateFormCont form label {
+  color: white;
+  margin-top: 40px;
+  padding-bottom: 5px;
+}
+.updateFormCont button {
+  margin-top: 20px;
+  align-self: center;
+}
+
+.cancelbtn {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-weight: 800;
+  text-decoration: underline;
+  cursor: pointer;
+}

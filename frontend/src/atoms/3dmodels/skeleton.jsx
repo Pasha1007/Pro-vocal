@@ -7,7 +7,7 @@ import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
 
 import styles from "../../styles/LoaderStyles.module.css";
 
-function SkeletonModel() {
+const SkeletonModel = ({ modelUrl }) => {
   const canvasRef = useRef(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -23,6 +23,7 @@ function SkeletonModel() {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    if (!canvas) return; // Make sure the canvas is available
 
     const camera = new THREE.PerspectiveCamera(
       75,
@@ -55,7 +56,7 @@ function SkeletonModel() {
     );
 
     loader.load(
-      "/3DModels/skeleton.gltf",
+      modelUrl,
       (gltf) => {
         const skeleton = gltf.scene;
         skeleton.position.set(0, 0.5, 0);
@@ -84,7 +85,7 @@ function SkeletonModel() {
     };
 
     window.addEventListener("resize", handleResize);
-  }, [loader, scene]);
+  }, [loader, scene, modelUrl]);
 
   return (
     <div
@@ -124,6 +125,6 @@ function SkeletonModel() {
       )}
     </div>
   );
-}
+};
 
 export default SkeletonModel;

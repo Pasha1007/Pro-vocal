@@ -1,31 +1,106 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import styles from "../styles/RegisterCardStyles.module.css";
-
 import leftSideLogo from "../assets/authImages/logoLeftSide.png";
 import { Link } from "react-router-dom";
-
+import { AuthContext } from "../contexts/AuthContext";
 const RegisterCard = () => {
+  const { login } = useContext(AuthContext);
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    repassword: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const { username, password, repassword } = formData;
+
+    if (!username || !password || !repassword) {
+      alert("err");
+      return;
+    }
+
+    if (password !== repassword) {
+      alert("err");
+      return;
+    }
+
+    fetch("http://localhost:1234/api/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: username,
+        email: username,
+        password: password,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+          window.location.href = "/";
+          login(data.token);
+        } else {
+          alert("err");
+        }
+      })
+      .catch((error) => {
+        alert("err");
+        console.error("Помилка:", error);
+      });
+  };
+
   return (
     <div className={styles.loginCardCont}>
       <div className={styles.loginCard}>
-        <img src={leftSideLogo} alt="" />
+        <img src={leftSideLogo} alt="Left Side Logo" />
         <div className={styles.loginForm}>
           <h2>Реєстрація</h2>
-          <div className={styles.inputsCont}>
-            <div className={styles.usernameInputGroup}>
-              <label htmlFor="username">Реєстрація:</label>
-              <input type="text" id="username" name="username" />
+          <form onSubmit={handleSubmit} className={styles.form}>
+            <div className={styles.inputsCont}>
+              <div className={styles.usernameInputGroup}>
+                <label htmlFor="username">Логін:</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className={styles.usernameInputGroup}>
+                <label htmlFor="password">Пароль:</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className={styles.usernameInputGroup}>
+                <label htmlFor="repassword">Повторіть пароль:</label>
+                <input
+                  type="password"
+                  id="repassword"
+                  name="repassword"
+                  value={formData.repassword}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
-            <div className={styles.usernameInputGroup}>
-              <label htmlFor="password">Пароль:</label>
-              <input type="password" id="password" name="password" />
-            </div>
-            <div className={styles.usernameInputGroup}>
-              <label htmlFor="password">Повторіть пароль:</label>
-              <input type="password" id="repassword" name="password" />
-            </div>
-          </div>
-          <button className={styles.logBtn}>Реєстрація</button>
+            <button className={styles.logBtn}>Реєстрація</button>
+          </form>
           <div className={styles.orElement}>
             <div className={styles.greyLine}></div>
             <span>або</span>
@@ -59,7 +134,7 @@ const RegisterCard = () => {
             </svg>
           </div>
           <div className={styles.noAccTxt}>
-            Вже маєте акаунту?<Link to="/login"> Увійти </Link>
+            Вже маєте акаунт? <Link to="/login">Увійти</Link>
           </div>
         </div>
       </div>

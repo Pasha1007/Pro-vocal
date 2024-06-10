@@ -22,11 +22,11 @@ const routes = [
     element: <CoursesCatalog />,
   },
   {
-    path: "/courses/course/:title",
+    path: "/courses/course/:id",
     element: <Course />,
   },
   {
-    path: "/courses/courseBelt/:title",
+    path: "/courses/courseBelt/:id",
     element: <CourseTechinque />,
   },
 ];

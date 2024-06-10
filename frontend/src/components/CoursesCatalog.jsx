@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import styles from "../styles/CoursesCatalogStyles.module.css";
 import { ReactComponent as Waves } from "../assets/coursePageAssets/coursePageWaves.svg";
@@ -6,43 +6,236 @@ import CourseBlock from "./CourseBlock";
 import MainButton from "../atoms/buttons/MainButton";
 const CoursesCatalog = () => {
   const [progress, setProgress] = useState(10);
-  const [isAdmin, setIsAdmin] = useState(true);
-  const [showModal, setShowModal] = useState(true);
+  const [isUserAdmin, setIsAdmin] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [trainings, setTrainings] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    category: "",
+    content: "",
+    file: null,
+  });
+  const [updateData, setUpdateData] = useState({
+    id: "",
+    title: "",
+    description: "",
+    category: "",
+    content: "",
+    file: null,
+  });
 
+  const loadTrainings = async () => {
+    try {
+      const response = await fetch("http://localhost:1234/api/trainings");
+      if (!response.ok) {
+        throw new Error("Failed to fetch trainings");
+      }
+      const data = await response.json();
+      setTrainings(data.data);
+    } catch (error) {
+      console.error("Error loading trainings:", error.message);
+    }
+  };
+
+  const loadCategories = async () => {
+    try {
+      const response = await fetch("http://localhost:1234/api/categories");
+      if (!response.ok) {
+        throw new Error("Failed to fetch categories");
+      }
+      const data = await response.json();
+      setCategories(data.data);
+    } catch (error) {
+      console.error("Error loading categories:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    loadTrainings();
+    loadCategories();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let base64File = null;
+
+    if (formData.file) {
+      base64File = await toBase64(formData.file);
+    }
+
+    const data = {
+      title: formData.title,
+      category: formData.category,
+      content: formData.content,
+      description: formData.description,
+      file: base64File,
+    };
+
+    try {
+      const response = await fetch("http://localhost:1234/api/trainings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add training");
+      }
+
+      setFormData({
+        title: "",
+        category: "",
+        content: "",
+        description: "",
+        file: null,
+      });
+      loadTrainings();
+    } catch (error) {
+      console.error("Error adding training:", error.message);
+    }
+  };
+
+  const deleteTraining = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:1234/api/trainings/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to delete training");
+      }
+      loadTrainings();
+    } catch (error) {
+      console.error("Error deleting training:", error.message);
+    }
+  };
+
+  const toBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [showModal]);
   const toggleModal = () => {
     setShowModal(!showModal);
   };
-  const courseTitles = [
-    { title: "Сила (дихальна система)", avaliable: true, type: 1 },
-    {
-      title: "Джерело (голосові зв’язки в гортані)",
-      avaliable: true,
-      type: 1,
-    },
-    {
-      title: "Фільтр (резонатор дихального тракту)",
-      avaliable: false,
-      type: 1,
-    },
-  ];
-  const opportunitiesTitles = [
-    { title: "Гортань", avaliable: true, type: 1 },
-    { title: "М’яке піднебіння", avaliable: true, type: 1 },
-    { title: "Перснеподібний хрящ", avaliable: false, type: 1 },
-  ];
+
   const breathingTechniques = [
     { title: "Фальцет", avaliable: true, type: 2 },
-    { title: "Белт", avaliable: true, type: 2 },
+    { title: "Белт", avaliable: false, type: 2 },
     { title: "Мікст", avaliable: false, type: 2 },
   ];
-
+  const typeOneCourse = trainings.filter(
+    (course) => course.category.name === "1"
+  );
+  const typeTwoCourse = trainings.filter(
+    (course) => course.category.name === "2"
+  );
   return (
     <div className={styles.mainContainer}>
       {showModal && (
-        <div className={styles.addCourseModal}>
-          <button className={styles.closeModal} onClick={toggleModal}>
-            X
-          </button>
+        <div className={styles.darkBG}>
+          <div className={styles.centered}>
+            <div className={styles.modal}>
+              <div className={styles.modalHeader}>
+                <h5 className={styles.heading}>Створити курс</h5>
+              </div>
+
+              <div className={styles.modalContent}>
+                {/* <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    addCategory(prompt("Enter category name:"));
+                  }}
+                >
+                  <button type="submit">Add Category</button>
+                </form> */}
+                <form onSubmit={handleSubmit}>
+                  <div className={styles.usernameInputGroup}>
+                    <input
+                      type="text"
+                      placeholder="Назва курсу"
+                      value={formData.title}
+                      onChange={(e) =>
+                        setFormData({ ...formData, title: e.target.value })
+                      }
+                    />{" "}
+                    <select
+                      value={formData.category}
+                      onChange={(e) =>
+                        setFormData({ ...formData, category: e.target.value })
+                      }
+                    >
+                      <option value="">Select category</option>
+                      {categories.map((category) => (
+                        <option key={category._id} value={category._id}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      type="text"
+                      placeholder="Контент"
+                      value={formData.content}
+                      onChange={(e) =>
+                        setFormData({ ...formData, content: e.target.value })
+                      }
+                    />
+                    <textarea
+                      placeholder="Description"
+                      value={formData.description}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          description: e.target.value,
+                        })
+                      }
+                    />
+                    <input
+                      type="file"
+                      onChange={(e) =>
+                        setFormData({ ...formData, file: e.target.files[0] })
+                      }
+                    />
+                    <div className={styles.modalBtnCont}>
+                      <button
+                        className={styles.deleteBtn}
+                        onClick={handleSubmit}
+                        type="submit"
+                      >
+                        Add Training
+                      </button>
+                      <button
+                        className={styles.cancelBtn}
+                        onClick={toggleModal}
+                      >
+                        Скасувати
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       )}
       <Header theme="dark" />
@@ -63,7 +256,7 @@ const CoursesCatalog = () => {
         <div className={styles.introductionContainer}>
           <div className={styles.blocksTitle}>
             <span>Введення в Estill Voice</span>
-            {isAdmin && (
+            {isUserAdmin && (
               <div className={styles.addCourseBtnCont}>
                 <button className={styles.butOnBut} onClick={toggleModal}>
                   <MainButton text="Додати курс" type="small" />
@@ -72,13 +265,16 @@ const CoursesCatalog = () => {
             )}
           </div>
           <div className={styles.listCourses}>
-            {courseTitles.map((item) => {
+            {typeOneCourse.map((course) => {
               return (
-                <CourseBlock
-                  title={item.title}
-                  blured={item.avaliable}
-                  type={item.type}
-                />
+                <div key={course._id}>
+                  <CourseBlock
+                    id={course._id}
+                    title={course.title}
+                    blured={true}
+                    type={course.category.name}
+                  />
+                </div>
               );
             })}
           </div>
@@ -88,13 +284,16 @@ const CoursesCatalog = () => {
             <span>Можливості</span>
           </div>
           <div className={styles.listCourses}>
-            {opportunitiesTitles.map((item) => {
+            {typeTwoCourse.map((course) => {
               return (
-                <CourseBlock
-                  title={item.title}
-                  blured={item.avaliable}
-                  type={item.type}
-                />
+                <div key={course._id}>
+                  <CourseBlock
+                    id={course._id}
+                    title={course.title}
+                    blured={true}
+                    type={course.category.name}
+                  />
+                </div>
               );
             })}
           </div>

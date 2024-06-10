@@ -4,17 +4,13 @@ import { ReactComponent as Logo } from "../assets/headerImages/PROVOCALIcon.svg"
 
 import { Link } from "react-router-dom";
 
-const CourseBlock = ({ title, blured, type }) => {
-  const encodedTitle = encodeURIComponent(title);
-
+const CourseBlock = ({ title, blured, type, id }) => {
   return (
     <div className={styles.courseContainer}>
       {blured ? (
         <Link
           to={
-            type === 1
-              ? `/courses/course/${encodedTitle}`
-              : `/courses/courseBelt/${encodedTitle}`
+            type === "1" ? `/courses/course/${id}` : `/courses/courseBelt/${id}`
           }
         >
           <div className={styles.courseImgCont}>
