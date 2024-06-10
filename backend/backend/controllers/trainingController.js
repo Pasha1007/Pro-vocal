@@ -4,7 +4,6 @@ import fs from 'fs';
 import path from 'path';
 import User from '../models/userModel.js';
 
-// Функция для сохранения файла из Base64 в файловую систему с использованием стримов
 const saveBase64File = (base64Data, filePath) => {
     const matches = base64Data.match(/^data:(.+);base64,(.+)$/);
     const ext = matches[1].split('/')[1];
@@ -12,17 +11,14 @@ const saveBase64File = (base64Data, filePath) => {
     const buffer = Buffer.from(data, 'base64');
     const filename = `${filePath}.${ext}`;
 
-    // Проверка размера файла (например, не более 50 МБ)
     if (buffer.length > 70 * 1024 * 1024) { // 50 МБ
         throw new Error('File size exceeds the limit of 50 MB');
     }
 
-    // Создаем стрим для записи файла
     const writeStream = fs.createWriteStream(filename);
     writeStream.write(buffer);
     writeStream.end();
 
-    // Обработка ошибок при записи
     writeStream.on('error', (err) => {
         console.error(`Error writing file: ${err.message}`);
         throw new Error('Failed to save the file');
@@ -58,7 +54,6 @@ const createTraining = asyncHandler(async (req, res) => {
     res.status(201).json({ success: true, data: newTraining });
 });
 
-// Пример для обновления тренировки
 const updateTraining = asyncHandler(async (req, res) => {
     const { title, description, content, category, file } = req.body;
     const training = await Training.findById(req.params.id);
